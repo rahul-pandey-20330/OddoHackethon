@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    .avatar img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #2e7d32;
+    }
+
+    .actions button {
+      padding: 8px 16px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .save-btn {
+      background-color: #2e7d32;
+    }
+
+    .discard-btn {
+      background-color: #d32f2f;
+    }
+
+    .profile-form h2 {
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+
+    .form-section {
+      margin-bottom: 20px;
+    }
+
+    .form-section label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+      color: #444;
+    }
+
+    .form-section input,
+    .form-section select {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      background-color: #e0f2f1;
+      color: #004d40;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .tag button {
+      background: none;
+      border: none;
+      margin-left: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #d32f2f;
+    }
+
+    .add-skill-btn {
+      margin-top: 10px;
+      background-color: #2e7d32;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .photo-btn,
+    .remove-btn {
+      background-color: #2e7d32;
+      color: white;
+      padding: 8px 14px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .remove-btn {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="actions">
+        <button class="save-btn">Save</button>
+        <button class="discard-btn">Discard</button>
+        <button class="discard-btn">Logout</button>
+      </div>
+      <nav class="nav">
+        <a href="swaprequest.html">Swap Requests</a>
+        <a href="index.html">Home</a>
+        <div class="avatar">
+          <img src="https://i.pravatar.cc/40" alt="User Avatar">
+        </div>
+      </nav>
+    </header>
+
+    <main class="profile-form">
+      <h2>User Profile</h2>
+
+      <!-- Skills Offered -->
+      <div class="form-section">
+        <label>Skills Offered</label>
+        <div class="tags" id="skills-offered">
+          <span class="tag">Graphic Design <button onclick="removeTag(this)">&times;</button></span>
+        </div>
+        <select id="skillDropdown" onchange="addSkillFromDropdown()">
+          <option value="">-- Select Skill --</option>
+          <option value="UI Design">UI Design</option>
+          <option value="Figma">Figma</option>
+          <option value="ReactJS">ReactJS</option>
+          <option value="Video Editing">Video Editing</option>
+        </select>
+        <button class="add-skill-btn" onclick="toggleSkillInput()">+ Add New Skill</button>
+        <div id="add-skill-section" style="display: none; margin-top: 10px;">
+          <input type="text" id="newSkillInput" placeholder="Enter new skill" />
+          <button onclick="addNewSkill()">Add</button>
+        </div>
+      </div>
+
+      <!-- Skills Wanted -->
+      <div class="form-section">
+        <label>Skills Wanted</label>
+        <div class="tags" id="skills-wanted">
+          <span class="tag">Python <button onclick="removeTag(this)">&times;</button></span>
+        </div>
+        <select id="skillWantedDropdown" onchange="addWantedSkillFromDropdown()">
+          <option value="">-- Select Skill --</option>
+          <option value="UI Design">UI Design</option>
+          <option value="Video Editing">Video Editing</option>
+          <option value="Project Management">Project Management</option>
+          <option value="Java">Java</option>
+          <option value="ReactJS">ReactJS</option>
+        </select>
+        <button class="add-skill-btn" onclick="toggleWantedSkillInput()">+ Add New Skill</button>
+        <div id="add-wanted-skill-section" style="display: none; margin-top: 10px;">
+          <input type="text" id="newWantedSkillInput" placeholder="Enter new skill" />
+          <button onclick="addNewWantedSkill()">Add</button>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="form-section">
+        <select id="availability">
+      <option>Availability</option>
+      <option>Evenings</option>
+      <option>Part Time</option>
+      <option>Full Time</option>
+      <option>Weekends</option>
+      <option>Week Days</option>
+    </select>
+      </div>
+
+      <!-- Address -->
+      <div class="form-section">
+        <label>Address</label>
+        <input type="text" placeholder="Enter your address">
+      </div>
+
+      <!-- Profile Visibility -->
+      <div class="form-section">
+        <label>Profile</label>
+        <select>
+          <option value="public">Public</option>
+          <option value="private">Private</option>
+        </select>
+      </div>
+
+      <!-- Profile Photo -->
+      <div class="form-section">
+        <label>Profile Photo</label>
+        <button class="photo-btn" onclick="document.getElementById('photoInput').click()">Add/Edit</button>
+        <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="updateProfilePhoto(event)">
+        <button class="remove-btn" onclick="removeProfilePhoto()">Remove</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Remove tag
+    function removeTag(button) {
+      button.parentElement.remove();
+    }
+
+    // Profile Photo Functions
+    function removeProfilePhoto() {
+      const avatarImg = document.querySelector('.avatar');
+      avatarImg.style.display = 'none';
+      alert('Profile photo removed.');
+    }
+
+    function updateProfilePhoto(event) {
+      const file = event.target.files[0];
+      const avatarImg = document.querySelector('.avatar img');
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          avatarImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Skills Offered Functions
+    function toggleSkillInput() {
+      const section = document.getElementById("add-skill-section");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+    }
+
+    function addNewSkill() {
+      const input = document.getElementById("newSkillInput");
+      const skillName = input.value.trim();
+      const skillsContainer = document.getElementById("skills-offered");
+
+      if (skillName) {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerHTML = `${skillName} <button onclick="removeTag(this)">&times;</button>`;
+        skillsContainer.appendChild(span);
+        input.value = "";
+      } else {
+        alert("Please enter a skill name.");
+      }
+    }
+
+    function addSkillFromDropdown() {
+      const dropdown = document.getElementById("skillDropdown");
+      const skillName = dropdown.value;
+      if (skillName !== "") {
+        const skillsContainer = document.getElementById("skills-offered");
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerHTML = `${skillName} <button onclick="removeTag(this)">&times;</button>`;
+        skillsContainer.appendChild(span);
+        dropdown.value = "";
+      }
+    }
+
+    // Skills Wanted Functions
+    function toggleWantedSkillInput() {
+      const section = document.getElementById("add-wanted-skill-section");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+    }
+
+    function addNewWantedSkill() {
+      const input = document.getElementById("newWantedSkillInput");
+      const skillName = input.value.trim();
+      const skillsContainer = document.getElementById("skills-wanted");
+
+      if (skillName) {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerHTML = `${skillName} <button onclick="removeTag(this)">&times;</button>`;
+        skillsContainer.appendChild(span);
+        input.value = "";
+      } else {
+        alert("Please enter a skill name.");
+      }
+    }
+
+    function addWantedSkillFromDropdown() {
+      const dropdown = document.getElementById("skillWantedDropdown");
+      const skillName = dropdown.value;
+      if (skillName !== "") {
+        const skillsContainer = document.getElementById("skills-wanted");
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerHTML = `${skillName} <button onclick="removeTag(this)">&times;</button>`;
+        skillsContainer.appendChild(span);
+        dropdown.value = "";
+      }
+    }
+  </script>
+</body>
+</html>
